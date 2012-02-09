@@ -1,4 +1,3 @@
-
 COMPILER = gcc
 CCFLAGS  = -ansi -pedantic -Wall
 all: shell
@@ -7,7 +6,7 @@ debug:
 		make DEBUG=TRUE
 
 shell: shell.o
-		$(COMPILER) $(CCFLAGS) -o shell shell.c
+		$(COMPILER) $(CCFLAGS) -o shell shell.c util.c
 
 ifeq ($(DEBUG), TRUE)
 	 CCFLAGS += -g

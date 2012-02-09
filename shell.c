@@ -1,21 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "shell.h"
 #include <unistd.h>
+#include <ctype.h>
+#include "shell.h"
+#include "util.h"
 #define DELIMINATORS "\t "
 
 
 /*************** (BUILT IN FUNCTIONS) **************************/
+
 int CD (char* command)
 {
 	return chdir(command);
 }
 
+/*
 char* parseCommandLine(char* arguments)
 {
 	int size = 0;
-	/* assume there are 256 tokens */
+	
 	char* commandLine = (char*) malloc (257 * sizeof (char));
 	commandLine[256] = '\0';
 	
@@ -41,18 +45,19 @@ Function createFunction(char* command)
 		Function function = malloc (sizeof (struct funct));
 		function -> command = strdup(command);
 		function -> f = CD; 	
-	}	
+
 }
+
+*/
 int main(int argc, char **argv)
 {
-	int i;
 	char* arguments = NULL;
 	
 	arguments = (char*) malloc (257 * sizeof (char));
 	/* some code taken here: http://www.daniweb.com/software-development/c/tutorials/45806 */
 	fputs("$ ", stdout);
 	fflush(stdout);
-	fgets(arguments, 257, stdin);
+	fgets(arguments, 1024, stdin);
 	/*printf("%s\n", arguments);
 	printf("%d\n", strlen(arguments));
 	*/
@@ -69,33 +74,21 @@ int main(int argc, char **argv)
 	
 	while (arguments != NULL && strcmp(arguments, "quit") != 0)
 	{	
-		char* token = NULL;
-		token = strtok(arguments, DELIMINATORS);
-		while (token != NULL)
-		{	
-			/* printf("%d\n", token[0]);
-			printf("%d\n", token[strlen(token)-1]); */
-			printf("%s\n", token );
-			if (strcmp(token, "|") == 0)
-			{
-				printf("end of command. create new command\n");
-			}
-			//free(token);			
-			token = strtok(NULL, DELIMINATORS);
-		}	
+		char** tokens = NULL;
+		tokens = parseWord(arguments);
+		printf("%s\n", tokens[0]);
+		free(tokens);	
 		free(arguments);
 		arguments = (char*) malloc (257 * sizeof (char));
 		fputs("$ ", stdout);
         fflush(stdout);
-        fgets(arguments, 257, stdin);
+        fgets(arguments, 1024, stdin);
 		/* printf("%d:%s\n", strlen(arguments), arguments); */
         
 		if (arguments[ (strlen(arguments) -1)] == '\n')
         {
 			arguments[ (strlen(arguments) -1)] = '\0';
 	    }
-	
-		//printf("Freed data\n");
 	}
 
 	return 1;
