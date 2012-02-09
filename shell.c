@@ -6,15 +6,6 @@ int
 main(int argc, char *argv[])
 {
   char line[50*10];
-  char **tokens;
-  int i;
-
-  while ((tokens = calloc(11, sizeof(char*))) != NULL);
-
-  for (i = 0; i < sizeof(tokens); i++)
-  {
-    printf("%d\n", i);
-  }
 
   while (1)
   {
@@ -26,6 +17,7 @@ main(int argc, char *argv[])
       break;
     }
   }
+  return 0;
 }
 
 /**
