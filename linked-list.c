@@ -17,5 +17,24 @@ struct node
 node_ptr
 add_to_end(node_ptr head, char *item[])
 {
-  return 0;
+  node_ptr head;
+  /* Create a new list */
+  if (head == NULL)
+  {
+    if ((head = (node_ptr)malloc(sizeof(*node_ptr))) == NULL)
+      return NULL;
+    head->item = item;
+    head->next = NULL;
+    return head;
+  }
+  /* Add  new item to end of list */
+  ptr = head;
+  while (ptr->next != NULL)
+    ptr = ptr->next;
+  if ((ptr->next = (node_ptr)malloc(sizeof(*node_ptr))) == NULL)
+    return NULL;
+  ptr = ptr->next;
+  ptr->item = item;
+  ptr->next = NULL;
+  return head;
 }
