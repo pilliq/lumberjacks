@@ -59,8 +59,8 @@ char** parseWord(char* argument)
 		{
 			printf("Size of new word: %d\n", size);
 			array[i] = createWord(argument, startPoint, size);
-			size++;
 			startPoint+=size;
+			printf("Starting at: %d\n", startPoint);
 			i++;
 		}
 		/* we run into a deliminator */
@@ -74,7 +74,7 @@ char** parseWord(char* argument)
 } 
 
 char* createWord (char* string, int startIndex, int numberOfCharacters)
-{		
+{	
 	char * resultWord = (char*) malloc ((numberOfCharacters+1)* sizeof (char) );
 	memcpy(resultWord, string + startIndex, numberOfCharacters);
 	resultWord[numberOfCharacters] = '\0';
@@ -114,7 +114,10 @@ int countCharacters(char* string, int startPoint)
 		first. If they aren't create a new word
 		
 		Otherwise, keep counting characters */
-		printf("Current char: %c %d\n", currentCharacter, currentCharacter); 
+		printf("Current char: %c %d\n", currentCharacter, currentCharacter);
+		printf("Open Double quotes: %d\n", openDoubleQuotes);
+		printf("Open Single quotes: %d\n", openSingleQuotes);
+ 
 		if (isalpha(currentCharacter) == 0)
 		{
 			/* if we run into a quote character, assume either we are entering a quoted string
@@ -124,46 +127,93 @@ int countCharacters(char* string, int startPoint)
 			be a invalid string */
 			if (currentCharacter == 39 || currentCharacter == 34)
 			{
-				/* if we run into a double quote character */
-				if (openDoubleQuotes == 1)
-				{	
-					printf("Closed Quote\n");
-					openDoubleQuotes = 0;
-					/*printf("Make a word: %d\n", size);*/
-					size++;
-					return size;
+				if (currentCharacter == 34)
+				{
+					/* if we run into a double quote character */
+					if (openDoubleQuotes == 1)
+					{	
+						printf("Closed Quote\n");
+						openDoubleQuotes = 0;
+						/*printf("Make a word: %d\n", size);*/
+						size++;
+						return size;
+					}
+					else
+					{	
+						printf("Open Quote\n");
+						openDoubleQuotes = 1;
+						size++;
+					}
 				}
 				else
-				{	
-					printf("Open Quote\n");
-					openDoubleQuotes = 1;
-					size++;
+				{
+					if (openDoubleQuotes == 1)
+                                        {
+                                                size++;
+                                        }
+                                        else if (openDoubleQuotes == 0)
+                                        {       
+						if (openSingleQuotes == 0)
+						{
+                                                	printf("Open Single Quote\n");
+                                                	openSingleQuotes = 1;
+                                                	size++;
+						}
+						else
+						{
+							printf("Closed Single Quote\n");
+							openSingleQuotes = 0;
+							size++;
+							return size;
+						} 
+                                        }	
 				}
+		
 			}
 			
 			else
 			{
 				/* if this is the pipe symbol and its the first character we're encountering when we enter the function?
 				I just consider that as its own token */
+				
 				if (currentCharacter == 124 && size == 0)
 				{
 					size++;
+					inc--;
 					return size;
 				}
 				else
 				{
-					printf("Single %d\n", openSingleQuotes);
-					printf("double %d\n", openDoubleQuotes);
+
+					/* we encountered a deliminator */
 					
-					if (openDoubleQuotes == 0)
+					/* if there's no quotes */
+					
+					if (openDoubleQuotes == 0 && openSingleQuotes == 0)
 					{
 						return size;
+					} 
+					/*
+					if (openDoubleQuotes == 0 && openSingleQuotes == 1)
+					{
+						if (currentCharacter == 124 && size > 0)
+                                   		{
+                                              		return size;
+                                       		}
 					}
-				
+					else if (openDoubleQuotes == 1 && openSingleQuotes == 0)
+					{
+						if (currentCharacter == 124 && size > 0)
+                                                {
+							return size;
+                                                }
+					}
+					*/
 					else
-					{	
+					{		
 						size++;
 					}
+					
 				}	
 			}
 		}
