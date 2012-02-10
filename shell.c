@@ -53,7 +53,7 @@ int main(int argc, char **argv)
 {
 	char* arguments = NULL;
 	
-	arguments = (char*) malloc (257 * sizeof (char));
+	arguments = (char*) malloc (1024 * sizeof (char));
 	/* some code taken here: http://www.daniweb.com/software-development/c/tutorials/45806 */
 	fputs("$ ", stdout);
 	fflush(stdout);
@@ -74,12 +74,23 @@ int main(int argc, char **argv)
 	
 	while (arguments != NULL && strcmp(arguments, "quit") != 0)
 	{	
-		char** tokens = NULL;
+		char **tokens = NULL;
 		tokens = parseWord(arguments);
-		printf("%s\n", tokens[0]);
-		free(tokens);	
+		
+		int count;
+
+		count = 0;
+		
+		while (tokens[count] != NULL)
+		{	
+			printf("%s\n", tokens[count]);
+			count++;
+		}
+		/*printf("%s\n", tokens[1]);
+		printf("%s\n", tokens[2]);*/ 
+		cleanArray(tokens);	
 		free(arguments);
-		arguments = (char*) malloc (257 * sizeof (char));
+		arguments = (char*) malloc (1024 * sizeof (char));
 		fputs("$ ", stdout);
         fflush(stdout);
         fgets(arguments, 1024, stdin);
@@ -90,6 +101,9 @@ int main(int argc, char **argv)
 			arguments[ (strlen(arguments) -1)] = '\0';
 	    }
 	}
-
+	if (arguments != NULL)
+	{	
+		free(arguments);
+	}
 	return 1;
 } 
