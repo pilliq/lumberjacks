@@ -3,37 +3,245 @@
 #include <string.h>
 #include <ctype.h>
 #include "util.h"
-#include "linked-list.h"
 
-char** initializeArray(char** array)
+#define MAXCOMMANDS 50
+
+
+/** Linked List operations **/
+/**
+ * Returns a node_ptr to the head of linked list
+ * with item is added.
+ *
+ * Can be used to create a new linked list by passing NULL to head.
+ * This way, the new linked list will have one element, item.
+ */
+commandNode createNode(char** commands)
+{
+	commandNode node;
+	
+	node = (commandNode) malloc(sizeof(struct node));
+	node->command = commands;
+	node->next = NULL;
+	node->size = 1;
+	return node;
+}
+
+void printAllCommands(Commands c)
+{
+	char** commands;
+	int inc;
+	if (c == NULL || c->head == NULL)
+	{
+		printf("Empty \n");
+		return;
+	}
+	
+	commandNode ptr = c->head;
+	printf("-----------BEGIN-----------\n");
+	while (ptr != NULL)
+	{
+		commands = ptr->command;
+		
+		inc = 0;
+		
+		while (inc < 50 && ptr->command[inc] != NULL)
+		{
+			printf("%s\n", ptr->command[inc]);
+			inc++;	
+		}
+		ptr = ptr -> next;
+	}
+	printf("----------------DONE--------------\n");
+	return;
+}
+void destoryNode(commandNode node)
+{
+	if (node != NULL)
+	{
+		cleanArray(node->command);
+	}
+}
+Commands initializeCommands()
+{
+	Commands c;
+	c = (Commands) malloc (sizeof(struct list));
+	c->head = NULL;
+	c->size = 0;
+	return c;
+}
+
+void cleanCommands(Commands c)
 {
 	int i;
+	commandNode n, prev;
+	char **commands;
 	
-	for(i = 0; i < 1024; i++)
+	if (c->head == NULL)
 	{
-		array[i] = NULL;	
+		return;
 	}
-	return array;
-} 
+	
+	n = c->head->next;
+	prev = c->head;
+	if (n == NULL) 
+	{	
+		free(prev->command);
+		free(prev);
+	}
+	else
+	{	
+		free(prev->command);
+		while (n != NULL)
+		{
+			cleanArray(n->command);
+			free(prev);
+			prev = n;
+			n = n->next;
+		}
+		free(prev);
+	}
+	c->size = 0;
+	free(c);
+}
 
+commandNode addToList(commandNode head, commandNode node)
+{
+	if (head == NULL)
+	{
+		head = node;
+		return head;
+	}
+	
+	else if (head->next == NULL)
+	{
+		head->next = node;
+		return head;
+	}
+	commandNode ptr = head;
+		
+	while (ptr->next == NULL)
+	{
+		ptr = ptr->next;
+	}
+	ptr->next = node;
+	
+	return head;
+}
+
+/***************** STRING ARRAY OPERATIONS *************************/
+char** initializeArray(int size)
+{
+        char** array;
+        array = (char**) malloc (size * sizeof (char*) );
+        int i;
+
+        for(i = 0; i < size; i++)
+        {
+                array[i] = NULL;
+        }
+        return array;
+}
 void cleanArray(char** array)
 {
-	int count; 
-	for (count = 0; count < 1024; count++)
-	{
-		if (array[count] != NULL)
+        int count;
+        for (count = 0; count < 1024; count++)                                                   
+        {
+		printf("count %d\n", count);
+		if (array[count] == NULL)
 		{
-			free(array[count]);
-			array[count] = NULL;
+			break;
+		}
+
+                if (array[count] != NULL)                                                        
+                {
+			printf("Free %s\n", array[count]);       
+                        free(array[count]);
+                        array[count] = NULL;    
+			printf("Completed\n");                                                 
+                }                                                                                
+        }
+        free(array);
+}   
+
+/******************** WORD OPERATIONS ******************/
+char** addWord(char* command, char** array)
+{
+	int i;
+	i = 0;		
+	char* newWord;
+	while (i != 1024)
+	{
+		printf("%d\n", i);
+		if (array[i] == NULL)
+		{
+			array[i] = createWord(command, 0, strlen(command));
+			return array;
+		}
+		else
+		{
+			i++;
 		}
 	}
-	free(array);
+	return NULL;
+}
+
+
+/* assume we found a pipe command and we have to move into another set of commands */
+int addCommand(Commands c, char* command, int index)
+{
+	printf("Requested Index %d\n", index);
+	char** commands;
+	if (c == NULL)
+	{
+		return -1;
+	}
+	if (index > c->size)
+	{	
+		return -1;
+	}
+
+	commandNode head = c->head;
+
+	if (head == NULL)
+	{
+		printf("Empty Head\n");
+		commands = initializeArray(50);
+		commands[0] = command;
+		c->head = createNode(commands);
+		c->size++;
+	}
+	else
+	{
+		int i;
+		commandNode ptr = head;
+		for (i = 0; i < index; i++)
+		{
+			ptr = ptr->next;
+		}
+		if (ptr == NULL)
+		{
+			printf("Adding To new Node\n");
+			commands = initializeArray(50);
+			commands[0] = command;
+			ptr = addToList(head, createNode(commands));
+		}
+		else
+		{
+			printf("Adding to exisiting Node\n");
+			ptr->command[ptr->size] = command;
+			ptr->size++;
+		}
+	}
+	c->size++;
+	return 1;
 }
 char** parseWord(char* argument)
 {
 	char** array;	
 	array = (char**) malloc (1024 * sizeof (char*) );
-	array = initializeArray(array);		
+	
+	array = NULL;
+	array = initializeArray(1024);		
  
 	int startPoint;
 	int size;
@@ -58,6 +266,7 @@ char** parseWord(char* argument)
 		else if (size > 0)
 		{
 			printf("Size of new word: %d\n", size);
+			 
 			array[i] = createWord(argument, startPoint, size);
 			startPoint+=size;
 			printf("Starting at: %d\n", startPoint);
@@ -230,4 +439,4 @@ int countCharacters(char* string, int startPoint)
 		return -1;
 	}
 	return size;
-}
+} 

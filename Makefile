@@ -6,7 +6,7 @@ debug:
 		make DEBUG=TRUE
 
 shell: shell.o
-		$(COMPILER) $(CCFLAGS) -o shell shell.c util.c
+		$(COMPILER) $(CCFLAGS) -g -o shell shell.c util.c
 
 ifeq ($(DEBUG), TRUE)
 	 CCFLAGS += -g

@@ -5,14 +5,20 @@
 #include <ctype.h>
 #include "shell.h"
 #include "util.h"
+
 #define DELIMINATORS "\t "
 
 void acceptUserInput()
 {
-	char* arguments = NULL;
+	Commands c; 
+	char* arguments;
+	int index;
+	int count;
+	char **tokens;
+	arguments = NULL;
 
         arguments = (char*) malloc (1024 * sizeof (char));
-
+	
 	fputs("$ ", stdout);
 	fflush(stdout);
 	fgets(arguments, 1024, stdin);
@@ -25,28 +31,35 @@ void acceptUserInput()
                 at the end of your string. Add terminator character to the end */ 
          if (arguments[ (strlen(arguments) -1)] == '\n')
          {   
-                       arguments[ (strlen(arguments) -1)] = '\0';
-                            
+		arguments[ (strlen(arguments) -1)] = '\0';            
          }   
                     
          while (arguments != NULL && strcmp(arguments, "quit") != 0)
-         {               
-                        char **tokens;
+         {              
+			c = initializeCommands(); 
 			tokens = NULL;
                         tokens = parseWord(arguments);
-                                
-                        int count;
-            
+                    	            
                         count = 0;
-                            
+                        index = count;
                         while (tokens[count] != NULL)
                         {           
-                                printf("%s\n", tokens[count]);
-                                count++;
+				if (strcmp(tokens[count], "|") == 0)
+				{
+					index++;
+					printf("New Command\n");
+					count++;
+				}
+			
+				addCommand(c, tokens[count], index);
+				printf("Print Current Commands\n");
+				printAllCommands(c);
+				count++;
                         }   
-                        /*printf("%s\n", tokens[1]);
-                        printf("%s\n", tokens[2]);*/
+                       	 
+			/* Assuming execution of commands go here */
 			cleanArray(tokens);
+			tokens = NULL;
                         free(arguments);
                         arguments = (char*) malloc (1024 * sizeof (char));
                         fputs("$ ", stdout);
@@ -59,7 +72,7 @@ void acceptUserInput()
                                 arguments[ (strlen(arguments) -1)] = '\0';
                         }
           }
-          if (arguments != NULL)
+	  if (arguments != NULL)
           {
 		free(arguments);
           }
