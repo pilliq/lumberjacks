@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "util.h"
-
+#include "linked-list.h"
 
 char** initializeArray(char** array)
 {
@@ -178,10 +178,12 @@ int countCharacters(char* string, int startPoint)
 				
 				if (currentCharacter == 124 && size == 0)
 				{
+
 					size++;
 					inc--;
 					return size;
 				}
+				
 				else
 				{
 
