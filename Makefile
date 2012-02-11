@@ -12,6 +12,11 @@ shell.o: linked-list.c linked-list.h
 linked-list.o: linked-list.c linked-list.h
 	$(COMPILER) $(CCFLAGS) -c linked-list.c
 
+<<<<<<< HEAD
+=======
+shell: shell.o
+		$(COMPILER) $(CCFLAGS) -g -o shell shell.c util.c
+>>>>>>> c0a371736d4bbeb11f25ac167226d99f7826cc22
 
 ifeq ($(DEBUG), TRUE)
 	CCFLAGS += -g

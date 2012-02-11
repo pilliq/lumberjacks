@@ -1,0 +1,4 @@
+# Ignore binaries
+bin
+*.o
+shell
