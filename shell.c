@@ -58,6 +58,7 @@ void acceptUserInput()
                         }   
                        	 
 			/* Assuming execution of commands go here */
+			/* cleanCommands(c); */
 			cleanArray(tokens);
 			tokens = NULL;
                         free(arguments);
