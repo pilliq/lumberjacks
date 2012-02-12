@@ -45,12 +45,14 @@ add_to_end(node_ptr head, char *item[])
 void
 ll_free(node_ptr head)
 {
-  node_ptr next;
-  if (head == NULL)
-    return;
-  while (node_ptr->next != NULL)
+  node_ptr delete;
+  node_ptr ptr = head;
+  while (ptr != NULL)
   {
-    next = node_ptr->next;
-    free(node_ptr->item
+    delete = ptr;
+    ptr = ptr->next;
+    free(delete->item);
+    free(delete);
   }
+  return;
 }

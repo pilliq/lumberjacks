@@ -6,24 +6,6 @@
 #include "shell.h"
 #include "util.h"
 
-<<<<<<< HEAD
-int
-main(int argc, char *argv[])
-{
-  char line[50*10];
-
-  while (1)
-  {
-    fgets(line, sizeof(line), stdin);
-    printf("%s", line);
-    if (strcmp(line, "exit") == 0)
-    {
-      printf("Hi\n");
-      break;
-    }
-  }
-  return 0;
-=======
 #define DELIMINATORS "\t "
 
 void acceptUserInput()
@@ -94,7 +76,6 @@ void acceptUserInput()
           {
 		free(arguments);
           }
->>>>>>> c0a371736d4bbeb11f25ac167226d99f7826cc22
 }
 void acceptFileInput()
 {
