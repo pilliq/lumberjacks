@@ -7,7 +7,7 @@ struct node
 };
 /* typedef struct node *node_ptr; */
 
-/**
+/*
  * Returns a node_ptr to the head of linked list
  * with item is added.
  *
@@ -37,4 +37,20 @@ add_to_end(node_ptr head, char *item[])
   ptr->item = item;
   ptr->next = NULL;
   return head;
+}
+
+/*
+ * Frees a linked list and all of the items in it.
+ */
+void
+ll_free(node_ptr head)
+{
+  node_ptr next;
+  if (head == NULL)
+    return;
+  while (node_ptr->next != NULL)
+  {
+    next = node_ptr->next;
+    free(node_ptr->item
+  }
 }
