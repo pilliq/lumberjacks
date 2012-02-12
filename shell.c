@@ -6,8 +6,6 @@
 #include "shell.h"
 #include "util.h"
 
-#define DELIMINATORS "\t "
-
 void acceptUserInput()
 {
 	Commands c; 
@@ -78,7 +76,6 @@ void acceptUserInput()
 		free(arguments);
 	}
 }
-
 /* NOT SURE HOW TO HANDLE FILE INPUT */
 void acceptFileInput()
 {
