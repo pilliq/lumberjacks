@@ -1,37 +1,38 @@
+#include <stdlib.h>
 #include "linked-list.h"
 
-struct node
+struct ll_node
 {
   char **item;
-  struct node *next;
+  struct ll_node *next;
 };
-/* typedef struct node *node_ptr; */
+/* typedef struct node *ll_node_ptr; */
 
 /*
- * Returns a node_ptr to the head of linked list
+ * Returns a ll_node_ptr to the head of linked list
  * with item is added.
  *
  * Can be used to create a new linked list by passing NULL to head.
  * This way, the new linked list will have one element, item.
  */
-node_ptr
-add_to_end(node_ptr head, char *item[])
+ll_node_ptr
+add_to_end(ll_node_ptr head, char *item[])
 {
-  node_ptr head;
+  ll_node_ptr ptr;
   /* Create a new list */
   if (head == NULL)
   {
-    if ((head = (node_ptr)malloc(sizeof(*node_ptr))) == NULL)
+    if ((ptr = (ll_node_ptr)malloc(sizeof(*ptr))) == NULL)
       return NULL;
-    head->item = item;
-    head->next = NULL;
-    return head;
+    ptr->item = item;
+    ptr->next = NULL;
+    return ptr;
   }
   /* Add  new item to end of list */
   ptr = head;
   while (ptr->next != NULL)
     ptr = ptr->next;
-  if ((ptr->next = (node_ptr)malloc(sizeof(*node_ptr))) == NULL)
+  if ((ptr->next = (ll_node_ptr)malloc(sizeof(*ptr))) == NULL)
     return NULL;
   ptr = ptr->next;
   ptr->item = item;
@@ -43,10 +44,10 @@ add_to_end(node_ptr head, char *item[])
  * Frees a linked list and all of the items in it.
  */
 void
-ll_free(node_ptr head)
+ll_free(ll_node_ptr head)
 {
-  node_ptr delete;
-  node_ptr ptr = head;
+  ll_node_ptr delete;
+  ll_node_ptr ptr = head;
   while (ptr != NULL)
   {
     delete = ptr;
