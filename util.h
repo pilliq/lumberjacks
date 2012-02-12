@@ -20,7 +20,7 @@ typedef struct list* Commands;
 Commands initializeCommands();
 void cleanCommands(Commands c);
 char** initializeArray(int size);
-void cleanArray(char** array);
+void cleanArray(char** array, int size);
 
 char** parseWord(char* argument);
 char* createWord(char* string, int startIndex, int numberOfCharacters);
