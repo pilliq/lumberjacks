@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include <ctype.h>
 /** 
  * Returns a integer indicating whether the command provided
@@ -13,11 +14,11 @@
 
 int builtIn(char* command)
 {
-if(command == "")
+if(strcmp(command, "")==1)
 {
 	return null;
 }
-else if(command == "cd"||command == "exit")
+else if(strcmp(command,"cd")==1||strcmp(command,"exit")==1)
 {
 	return 1;
 }
