@@ -1,3 +1,4 @@
+/* Phillip Quiza, Gregory Job, Mark Jarrell, Gordon Arnold */
 /*
  * linked-list.h
  *

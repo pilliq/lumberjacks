@@ -1,3 +1,4 @@
+/* Phillip Quiza, Gregory Job, Mark Jarrell, Gordon Arnold */
 #include <stdlib.h>
 #include "linked-list.h"
 

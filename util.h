@@ -1,3 +1,4 @@
+/* Phillip Quiza, Gregory Job, Mark Jarrell, Gordon Arnold */
 #ifndef UTIL_H
 #define UTIL_H
 
