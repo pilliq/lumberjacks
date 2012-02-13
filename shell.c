@@ -11,12 +11,20 @@
 void execute(Commands c) {
     commandNode ptr;
     ptr = c->head;
+    int i;
     while (ptr) {
         char** cmd = ptr->command;
-        while (*cmd != NULL) {
+ 	i = 0;
+	for (; i < ptr->size; i++)
+	{
+		printf("<<Comand>> %s <<Command>>\n", cmd[i]);
+	}
+	/*
+	while (*cmd != NULL) {
             printf("<<Comand>> %s <<Command>>\n", *cmd);
             cmd += sizeof(char*);
         }
+	*/
         ptr = ptr->next;
     }
 
