@@ -23,12 +23,10 @@ void execute(Commands c) {
 	while (*cmd != NULL) {
             printf("<<Comand>> %s <<Command>>\n", *cmd);
             cmd += sizeof(char*);
-=======
 	char argument = cmd[0];
         while (argument != NULL) {
             printf("<<Comand>> %s <<Command>>\n", argument);
             argument++;
->>>>>>> a419389fefa88cfe945fdfa5c035d69e5ad569ef
         }
 	*/
         ptr = ptr->next;
