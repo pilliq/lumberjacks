@@ -8,6 +8,10 @@
 
 #define DELIMINATORS "\t "
 
+void exec(Command c) {
+
+}
+
 void acceptUserInput()
 {
 	Commands c; 
@@ -58,6 +62,8 @@ void acceptUserInput()
 		}
 		
 		/* Assuming execution of commands go here */
+                exec(c);
+
 		cleanCommands(c);
 		cleanArray(tokens, 50);
 		tokens = NULL;
