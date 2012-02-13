@@ -8,6 +8,21 @@
 
 #define DELIMINATORS "\t "
 
+void run(char** cmd) {
+    int pid;
+
+    switch(pid = fork()) {
+        case 0:
+            execvp(cmd[0], cmd);
+            perror(cmd[0]);
+        default:
+            break;
+        case -1: 
+            perror("fork");
+            exit(1);
+    }
+}
+
 void execute(Commands c) {
     commandNode ptr;
     ptr = c->head;
@@ -15,10 +30,12 @@ void execute(Commands c) {
     while (ptr) {
         char** cmd = ptr->command;
  	i = 0;
+        printf("Size = %i", ptr->size);
 	for (; i < ptr->size; i++)
 	{
 		printf("<<Comand>> %s <<Command>>\n", cmd[i]);
 	}
+        run(cmd); 
 	/*
 	while (*cmd != NULL) {
             printf("<<Comand>> %s <<Command>>\n", *cmd);

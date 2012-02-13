@@ -3,6 +3,7 @@
 
 #include "util.h"
 
+void run(char** cmd);
 void execute(Commands c);
 void acceptUserInput();
 void acceptFileInput();
