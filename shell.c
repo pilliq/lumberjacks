@@ -8,7 +8,12 @@
 
 #define DELIMINATORS "\t "
 
-void exec(Command c) {
+void exec (Command c) {
+    commandNode ptr;
+
+    while (ptr = c->head) {
+        printf("<<Comand>> %s <<Command>>\n", *(ptr->command));
+    }
 
 }
 
