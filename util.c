@@ -411,7 +411,10 @@ int countCharacters(char* string, int startPoint)
 					inc--;
 					return size;
 				}
-				
+				else if (currentCharacter == 45)
+				{
+					size++;
+				}	
 				else
 				{
 
