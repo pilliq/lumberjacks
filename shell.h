@@ -1,7 +1,9 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-void exec(Command c);
+#include "util.h"
+
+void execute(Commands c);
 void acceptUserInput();
 void acceptFileInput();
 #endif

@@ -8,11 +8,15 @@
 
 #define DELIMINATORS "\t "
 
-void exec (Command c) {
+void execute(Commands c) {
     commandNode ptr;
 
     while (ptr = c->head) {
-        printf("<<Comand>> %s <<Command>>\n", *(ptr->command));
+        char* cmd = ptr;
+        while (cmd != NULL) {
+            printf("<<Comand>> %s <<Command>>\n", cmd);
+            cmd++;
+        }
     }
 
 }
@@ -67,7 +71,7 @@ void acceptUserInput()
 		}
 		
 		/* Assuming execution of commands go here */
-                exec(c);
+                execute(c);
 
 		cleanCommands(c);
 		cleanArray(tokens, 50);
