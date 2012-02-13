@@ -13,9 +13,10 @@ void execute(Commands c) {
     ptr = c->head;
     while (ptr) {
         char** cmd = ptr->command;
-        while (*cmd != NULL) {
-            printf("<<Comand>> %s <<Command>>\n", *cmd);
-            cmd += sizeof(char*);
+	char argument = cmd[0];
+        while (argument != NULL) {
+            printf("<<Comand>> %s <<Command>>\n", argument);
+            argument++;
         }
         ptr = ptr->next;
     }
